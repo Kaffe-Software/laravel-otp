@@ -22,22 +22,16 @@ class Otp extends Facade
      * @param int $validity
      * @return mixed
      */
-    public function generate(string $identifier, int $digits = 4, int $validity = 10) : object
+    public function generate(string $identifier, int $digits = 4, int $validity = 10, int $user_id = 0) : object
     {
-        Model::where('identifier', $identifier)->where('valid', true)->delete();
 
-        $token = str_pad($this->generatePin(), 4, '0', STR_PAD_LEFT);
-
-        if ($digits == 5)
-            $token = str_pad($this->generatePin(5), 5, '0', STR_PAD_LEFT);
-
-        if ($digits == 6)
-            $token = str_pad($this->generatePin(6), 6, '0', STR_PAD_LEFT);
+        $token = str_pad($this->generatePin(), $digits, '0', STR_PAD_LEFT);
 
         Model::create([
             'identifier' => $identifier,
             'token' => $token,
-            'validity' => $validity
+            'validity' => $validity,
+            'user_id' => $user_id,
         ]);
 
         return (object)[
