@@ -25,7 +25,7 @@ class Otp extends Facade
     public function generate(string $identifier, int $digits = 4, int $validity = 10, int $user_id = 0) : object
     {
 
-        $token = str_pad($this->generatePin(), $digits, '0', STR_PAD_LEFT);
+        $token = str_pad($this->generatePin($digits), $digits, '0', STR_PAD_LEFT);
 
         Model::create([
             'identifier' => $identifier,
